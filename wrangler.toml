@@ -1,0 +1,103 @@
+name = "engurhesi"
+# custom entry adds queue + scheduled handlers around the SvelteKit worker
+main = "worker/index.ts"
+compatibility_date = "2026-07-04"
+
+[triggers]
+crons = ["0 * * * *"]
+
+[assets]
+directory = ".svelte-kit/cloudflare"
+binding = "ASSETS"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "engurhesi"
+database_id = "local-dev-placeholder"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "engurhesi-media"
+
+[[r2_buckets]]
+binding = "SNAPSHOTS"
+bucket_name = "engurhesi-snapshots"
+
+[[queues.producers]]
+binding = "JOBS"
+queue = "engurhesi-jobs"
+
+[[queues.consumers]]
+queue = "engurhesi-jobs"
+max_batch_size = 1
+max_retries = 3
+dead_letter_queue = "engurhesi-jobs-dlq"
+
+[images]
+binding = "IMAGES"
+
+[vars]
+ENVIRONMENT = "development"
+TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
+OPENROUTER_MODEL = "google/gemini-3.1-pro-preview"
+OPENROUTER_FALLBACK_MODEL = "google/gemini-2.5-pro-preview"
+
+[env.preview]
+name = "engurhesi-preview"
+vars = { ENVIRONMENT = "preview" }
+
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "engurhesi-preview"
+database_id = "preview-placeholder"
+
+[[env.preview.r2_buckets]]
+binding = "R2"
+bucket_name = "engurhesi-preview-media"
+
+[[env.preview.r2_buckets]]
+binding = "SNAPSHOTS"
+bucket_name = "engurhesi-preview-snapshots"
+
+[[env.preview.queues.producers]]
+binding = "JOBS"
+queue = "engurhesi-preview-jobs"
+
+[[env.preview.queues.consumers]]
+queue = "engurhesi-preview-jobs"
+max_batch_size = 1
+max_retries = 3
+dead_letter_queue = "engurhesi-preview-jobs-dlq"
+
+[env.preview.images]
+binding = "IMAGES"
+
+[env.production]
+name = "engurhesi"
+vars = { ENVIRONMENT = "production" }
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "engurhesi"
+database_id = "production-placeholder"
+
+[[env.production.r2_buckets]]
+binding = "R2"
+bucket_name = "engurhesi-media"
+
+[[env.production.r2_buckets]]
+binding = "SNAPSHOTS"
+bucket_name = "engurhesi-snapshots"
+
+[[env.production.queues.producers]]
+binding = "JOBS"
+queue = "engurhesi-jobs"
+
+[[env.production.queues.consumers]]
+queue = "engurhesi-jobs"
+max_batch_size = 1
+max_retries = 3
+dead_letter_queue = "engurhesi-jobs-dlq"
+
+[env.production.images]
+binding = "IMAGES"
