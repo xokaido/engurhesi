@@ -580,4 +580,28 @@
     font-size: var(--fs-sm);
     margin-bottom: var(--sp-2);
   }
+
+  .admin-content :global(.auto-toggle) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-700);
+    cursor: pointer;
+  }
+
+  .admin-content :global(.auto-toggle input) {
+    width: auto;
+    accent-color: var(--c-accent-600);
+  }
+
+  .admin-content :global(.auto-hint) {
+    background: var(--c-accent-100);
+    color: var(--c-accent-600);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-xs);
+    margin-bottom: var(--sp-2);
+    display: inline-block;
+  }
 </style>
