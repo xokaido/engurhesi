@@ -44,3 +44,7 @@ npm run deploy:production
 ```
 
 Before the first deploy: replace placeholder D1/R2 IDs in `wrangler.toml` with real resource IDs, and set secrets with `wrangler secret put` — `TURNSTILE_SECRET`, `SESSION_PEPPER`, `OPENROUTER_API_KEY`, plus `CF_API_TOKEN` / `CF_ZONE_ID` for purge-by-tag.
+
+## Deployment
+
+Pushes to `main` are built and deployed automatically to Cloudflare Workers (https://engurhesi.xok.workers.dev).
