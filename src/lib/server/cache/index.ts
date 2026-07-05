@@ -1,4 +1,5 @@
 import type { R2Bucket } from '@cloudflare/workers-types';
+import { version } from '$app/environment';
 
 export const CACHE_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 days safety cap
 export const SNAPSHOT_PREFIX = 'snapshots';
@@ -15,7 +16,9 @@ export function buildCacheKey(request: Request): string {
     if (key === 'page') allowed.set(key, value);
   }
   const query = allowed.toString();
-  return `${url.pathname}${query ? `?${query}` : ''}`;
+  // The app version prefixes the key so each deploy starts with a cold cache —
+  // stale HTML would otherwise reference immutable assets deleted by the deploy.
+  return `/__v/${version}${url.pathname}${query ? `?${query}` : ''}`;
 }
 
 export function cacheTagsHeader(tags: string[]): string {

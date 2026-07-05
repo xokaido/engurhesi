@@ -74,12 +74,17 @@ binding = "IMAGES"
 
 [env.production]
 name = "engurhesi"
-vars = { ENVIRONMENT = "production" }
+
+[env.production.vars]
+ENVIRONMENT = "production"
+TURNSTILE_SITE_KEY = "1x00000000000000000000AA" # TODO: replace with a real Turnstile site key
+OPENROUTER_MODEL = "google/gemini-3.1-pro-preview"
+OPENROUTER_FALLBACK_MODEL = "google/gemini-2.5-pro-preview"
 
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "engurhesi"
-database_id = "production-placeholder"
+database_id = "28cbe88c-c32d-49b4-b3aa-3a19fb358eb7"
 
 [[env.production.r2_buckets]]
 binding = "R2"

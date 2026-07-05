@@ -192,7 +192,12 @@ const handleCache: Handle = async ({ event, resolve }) => {
   if (cacheable && cache) {
     try {
       const hit = await getCachedResponse(cache as Cache, event.request);
-      if (hit) return hit;
+      if (hit) {
+        // the stored copy carries the internal TTL cap — browsers must revalidate
+        const out = new Response(hit.body, hit);
+        out.headers.set('Cache-Control', 'no-cache');
+        return out;
+      }
     } catch {
       // cache read failures fall through to render
     }
@@ -220,6 +225,8 @@ const handleCache: Handle = async ({ event, resolve }) => {
     (response.headers.get('Content-Type') ?? '').includes('text/html') &&
     !response.headers.has('Set-Cookie')
   ) {
+    // freshness comes from the worker cache + purge-on-publish; browsers revalidate
+    response.headers.set('Cache-Control', 'no-cache');
     const body = await response.clone().text();
     const work = async () => {
       try {

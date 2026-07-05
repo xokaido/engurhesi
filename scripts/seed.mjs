@@ -17,9 +17,10 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(dirname(fileURLToPath(import.meta.url)), 'seed.generated.sql');
 const MEDIA_UPLOAD_OUT = join(dirname(fileURLToPath(import.meta.url)), 'seed-media-upload.sh');
 
-const ADMIN_EMAIL = 'admin@engurhesi.ge';
-const ADMIN_PASSWORD = 'engurhesi-dev-2026';
-const PBKDF2_ITERATIONS = 210_000;
+const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL || 'admin@engurhesi.ge';
+const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD || 'engurhesi-dev-2026';
+// must match src/lib/server/auth/password.ts (Workers caps PBKDF2 at 100k)
+const PBKDF2_ITERATIONS = 100_000;
 
 const NOW = new Date().toISOString();
 const q = (value) =>

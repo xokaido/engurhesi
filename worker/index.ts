@@ -2,6 +2,8 @@
 import { Server } from "./../.svelte-kit/output/server/index.js";
 import { manifest, prerendered, base_path } from "./../.svelte-kit/cloudflare-tmp/manifest.js";
 import { env } from "cloudflare:workers";
+import { processJobBatch } from "../src/lib/server/queue/consumer";
+import { runScheduledMaintenance } from "../src/lib/server/maintenance";
 
 // ../../node_modules/.pnpm/worktop@0.8.0-next.18/node_modules/worktop/cache/index.mjs
 async function e(e3, t2) {
@@ -72,7 +74,7 @@ var worker_default = {
     }
     await initialized;
     let pragma = req.headers.get("cache-control") || "";
-    let res = !pragma.includes("no-cache") && await r2(req);
+    let res;
     if (res) return res;
     let { pathname, search } = new URL(req.url);
     try {
@@ -117,8 +119,17 @@ var worker_default = {
       });
     }
     pragma = res.headers.get("cache-control") || "";
-    return pragma && res.status < 400 ? c(req, res, ctx) : res;
+    return res;
   }
+};
+// --- appended by scripts/patch-worker.mjs -----------------------------------
+/** Queue consumer: background jobs (machine translation, batch work). */
+worker_default.queue = async (batch, env2) => {
+  await processJobBatch(env2.DB, env2, batch);
+};
+/** Cron: session/token expiry, submission retention, orphaned media. */
+worker_default.scheduled = (controller, env2, ctx) => {
+  ctx.waitUntil(runScheduledMaintenance(env2));
 };
 export {
   worker_default as default
