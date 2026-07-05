@@ -143,9 +143,37 @@ export const actions: Actions = {
           .where(eq(procurements.id, id));
       }
 
+      // link to the state procurement portal
+      const tenderNumber = String(form.get('tender_number') ?? '')
+        .trim()
+        .slice(0, 40);
+      let tenderUrl = String(form.get('tender_url') ?? '').trim();
+      if (tenderUrl) {
+        let host = '';
+        try {
+          const parsed = new URL(tenderUrl);
+          if (parsed.protocol === 'https:') host = parsed.hostname;
+        } catch {
+          // handled below
+        }
+        if (!/(^|\.)((procurement|tenders)\.gov\.ge|spa\.ge)$/.test(host)) {
+          return fail(400, {
+            error: 'ტენდერის ბმული უნდა იყოს https:// და მიუთითებდეს procurement.gov.ge-ზე'
+          });
+        }
+      } else if (tenderNumber) {
+        // sensible default when only the number is provided
+        tenderUrl = 'https://tenders.procurement.gov.ge/public/';
+      }
+
       await db
         .update(procurements)
-        .set({ kind: kind as 'tender' | 'auction', deadlineAt: newDeadline })
+        .set({
+          kind: kind as 'tender' | 'auction',
+          deadlineAt: newDeadline,
+          tenderNumber: tenderNumber || null,
+          tenderUrl: tenderUrl || null
+        })
         .where(eq(procurements.id, id));
     }
 

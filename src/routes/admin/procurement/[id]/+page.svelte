@@ -183,6 +183,26 @@
             </label>
           {/if}
         </div>
+        <div class="form-row">
+          <label class="field">
+            <span>განცხადების ნომერი tenders.gov.ge-ზე</span>
+            <input
+              type="text"
+              name="tender_number"
+              value={item.tenderNumber ?? ''}
+              placeholder="მაგ. NAT260012662"
+            />
+          </label>
+          <label class="field">
+            <span>განცხადების ბმული (URL ბრაუზერიდან)</span>
+            <input
+              type="url"
+              name="tender_url"
+              value={item.tenderUrl ?? ''}
+              placeholder="https://tenders.procurement.gov.ge/public/?go=…"
+            />
+          </label>
+        </div>
       {/if}
 
       <div class="actions-row">

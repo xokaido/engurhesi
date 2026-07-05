@@ -573,6 +573,8 @@ const procurements = [
     status: 'published',
     publishedAt: '2026-06-25T08:00:00.000Z',
     deadlineAt: '2026-07-25T14:00:00.000Z',
+    tenderNumber: 'NAT260012662',
+    tenderUrl: 'https://tenders.procurement.gov.ge/public/?go=324139&lang=ge',
     legacyId: 201,
     titles: {
       ka: 'ძალოვანი ტრანსფორმატორის შესყიდვა',
@@ -621,6 +623,8 @@ for (const proc of procurements) {
     status: proc.status,
     published_at: proc.publishedAt,
     deadline_at: proc.deadlineAt,
+    tender_number: proc.tenderNumber ?? null,
+    tender_url: proc.tenderUrl ?? null,
     legacy_id: proc.legacyId,
     ...meta
   });

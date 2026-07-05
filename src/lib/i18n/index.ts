@@ -101,6 +101,16 @@ const dict = {
     ru: 'Завершён (победитель определён)'
   },
   procStatusArchived: { ka: 'არქივი', en: 'Archived', ru: 'Архив' },
+  tenderPortal: {
+    ka: 'სახელმწიფო შესყიდვების პორტალი',
+    en: 'State procurement portal',
+    ru: 'Портал государственных закупок'
+  },
+  tenderPortalOpen: {
+    ka: 'ნახვა tenders.gov.ge-ზე',
+    en: 'View on tenders.gov.ge',
+    ru: 'Открыть на tenders.gov.ge'
+  },
   georgianControlling: {
     ka: 'იურიდიული ძალა აქვს მხოლოდ ქართულ ვერსიას.',
     en: 'The Georgian version of this notice is the legally controlling one.',
@@ -155,6 +165,12 @@ const dict = {
     ru: 'Запрошенная страница не существует или была удалена.'
   },
   backHome: { ka: 'მთავარ გვერდზე დაბრუნება', en: 'Back to home', ru: 'На главную' },
+  errorTitle: { ka: 'დაფიქსირდა შეცდომა', en: 'Something went wrong', ru: 'Произошла ошибка' },
+  errorBody: {
+    ka: 'სამწუხაროდ, მოთხოვნის დამუშავება ვერ მოხერხდა. სცადეთ თავიდან რამდენიმე წუთში.',
+    en: 'Unfortunately the request could not be processed. Please try again in a few minutes.',
+    ru: 'К сожалению, запрос не удалось обработать. Попробуйте снова через несколько минут.'
+  },
   footerRights: {
     ka: 'ყველა უფლება დაცულია',
     en: 'All rights reserved',
